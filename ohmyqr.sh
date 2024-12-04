@@ -52,7 +52,7 @@ xdotool key "F11"
 sleep 5
 while [ true ]; do
 sleep 5
-scrot -u tmp.jpg
+scrot -o -u tmp.jpg
 done
 
 }
