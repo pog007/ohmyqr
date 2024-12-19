@@ -5,7 +5,7 @@
 
 QR Code Jacking (Any Website)
 
-![qr](https://user-images.githubusercontent.com/34893261/43678438-b78ba754-97e9-11e8-9191-63147a4039d7.png)
+![qr](https://raw.githubusercontent.com/pog007/ohmyqr/refs/heads/master/Captura%20de%20tela%202024-12-19%20140252.png)
 
 ### Features:
 ### Port Forwarding using Ngrok or Serveo or localhost.run
