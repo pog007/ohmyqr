@@ -17,8 +17,11 @@ Usage of OhMyQR for attacking targets without prior mutual consent is illegal. I
 
 ### Usage:
 ```
-git clone https://github.com/thelinuxchoice/ohmyqr
+apt update
+apt install -y scrot xdotool
+git clone https://github.com/pog007/ohmyqr
 cd ohmyqr
+chmod +x ohmyqr.sh
 bash ohmyqr.sh
 ```
 
